@@ -12,10 +12,10 @@ const throttle = (fn, interval = 10) => {
 }
 
 if (require.main === module) {
-  const throttledConsoleLog = throttle(console.log, 1000)
+  const throttledConsoleCount = throttle(console.count, 1000)
   setInterval(() => {
-    // throttledConsoleLog("Hello World")
-    console.log("Hello World")
+    throttledConsoleCount("Hello World")
+    // console.count("Hello World")
   }, 10)
 }
 

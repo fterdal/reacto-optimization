@@ -1,7 +1,7 @@
 const express = require("express")
 const morgan = require("morgan")
 const html = require("html-template-tag")
-// const throttle = require("./throttle-demo")
+const throttle = require("./throttle-demo")
 const app = express()
 
 app.use(morgan("dev"))
@@ -11,6 +11,8 @@ const updateCounter = () => {
   counter = counter + 1
 }
 
+const throttledUpdateCounter = throttle(updateCounter, 1000)
+
 //
 // setInterval(() => {
 //   if (counter > 0) {
@@ -19,18 +21,18 @@ const updateCounter = () => {
 // }, 500)
 
 app.get("/", (req, res) => {
-  updateCounter()
-  if (counter > 10) {
+  throttledUpdateCounter()
+  if (counter > 300) {
     return res.status(500).send(html`
       <div style="text-align: center;">
-        <h1>Oh No! The server crashed! 🥺</h1>
+        <p style="font-size: ${counter}">Oh No! The server crashed! 🥺</p>
       </div>
     `)
   }
   res.send(html`
     <div style="text-align: center;">
-      <h1>Counter: ${counter} 😎</h1>
       <a href="/">Click Me!</a>
+      <p style="font-size: ${counter}">Counter: ${counter} 😎</p>
     </div>
   `)
 })
