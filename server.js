@@ -11,17 +11,15 @@ const updateCounter = () => {
   counter = counter + 1
 }
 
-const throttledUpdateCounter = throttle(updateCounter, 1000)
-
 //
-// setInterval(() => {
-//   if (counter > 0) {
-//     counter--
-//   }
-// }, 500)
+setInterval(() => {
+  if (counter > 0) {
+    counter--
+  }
+}, 500)
 
 app.get("/", (req, res) => {
-  throttledUpdateCounter()
+  updateCounter()
   if (counter > 300) {
     return res.status(500).send(html`
       <div style="text-align: center;">
